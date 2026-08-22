@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bisworupa Healthcare and Hospitals
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    
+
+        <h1>
+            Welcome to Bisworupa Healthcare and Hospitals
+        </h1>
+        <h2>
+            “At Bisworupa Healthcare & Hospitals, your well-being is our priority. Stay hopeful, stay strong, and take
+            one step toward better health every day.”
+        </h2>
+
+        <h4>
+            Quality healthcare supported by technology,
+            experienced professionals and compassionate care.
+        </h4>
+
+        <div class="hero-buttons">
+
+            <a class="button" href="{{ url_for('chatbot') }}">
+                🤖 Ask AI Assistant
+            </a>
+
+            <a class="button secondary" href="{{ url_for('doctors') }}">
+                👨‍⚕️ View Doctors
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="services">
+
+    <h2>
+        Our Services
+    </h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>
+                🤖 AI Healthcare Assistant
+            </h3>
+
+            <p>
+                Ask general questions about our healthcare services,
+                doctors and appointments.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                👨‍⚕️ Experienced Doctors
+            </h3>
+
+            <p>
+                Find doctors from different medical departments.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                📅 Online Appointments
+            </h3>
+
+            <p>
+                Login and book your appointment online.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

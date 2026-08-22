@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+    <h1>
+        Welcome, {{ session["user_name"] }}
+    </h1>
+
+    <div class="dashboard-buttons">
+
+        <a class="button"
+           href="{{ url_for('appointments') }}">
+            📅 Book Appointment
+        </a>
+
+        <a class="button"
+           href="{{ url_for('chatbot') }}">
+            🤖 Ask AI
+        </a>
+
+    </div>
+
+
+    <h2>
+        Your Appointments
+    </h2>
+
+
+    {% if appointments %}
+
+        <div class="appointment-list">
+
+            {% for appointment in appointments %}
+
+            <div class="card">
+
+                <h3>
+                    {{ appointment["doctor_name"] }}
+                </h3>
+
+                <p>
+                    Department:
+                    {{ appointment["department"] }}
+                </p>
+
+                <p>
+                    Date:
+                    {{ appointment["appointment_date"] }}
+                </p>
+
+                <p>
+                    Time:
+                    {{ appointment["appointment_time"] }}
+                </p>
+
+                {% if appointment["message"] %}
+
+                <p>
+                    Message:
+                    {{ appointment["message"] }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            You don't have any appointments yet.
+        </p>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

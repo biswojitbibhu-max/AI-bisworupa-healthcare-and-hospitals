@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Doctors - Bisworupa Healthcare
+{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+    <h1>
+        Our Doctors
+    </h1>
+
+    <div class="cards">
+
+        {% for doctor in doctors %}
+
+        <div class="card doctor-card">
+
+            <h2>
+                👨‍⚕️ {{ doctor["name"] }}
+            </h2>
+
+            <h3>
+                {{ doctor["department"] }}
+            </h3>
+
+            <p>
+                {{ doctor["qualification"] }}
+            </p>
+
+            {% if session.get("user_id") %}
+
+                <a class="button"
+                   href="{{ url_for('appointments') }}">
+                    Book Appointment
+                </a>
+
+            {% else %}
+
+                <a class="button"
+                   href="{{ url_for('login') }}">
+                    Login to Book
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

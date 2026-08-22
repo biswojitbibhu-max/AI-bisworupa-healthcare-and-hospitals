@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+Book Appointment
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h1>
+        📅 Book Appointment
+    </h1>
+
+    <form method="POST">
+
+        <label>
+            Select Doctor
+        </label>
+
+        <select name="doctor_id" required>
+
+            <option value="">
+                Select Doctor
+            </option>
+
+            {% for doctor in doctors %}
+
+            <option value="{{ doctor['id'] }}">
+
+                {{ doctor["name"] }}
+                -
+                {{ doctor["department"] }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>
+            Appointment Date
+        </label>
+
+        <input
+            type="date"
+            name="appointment_date"
+            required
+        >
+
+
+        <label>
+            Appointment Time
+        </label>
+
+        <input
+            type="time"
+            name="appointment_time"
+            required
+        >
+
+
+        <label>
+            Message
+        </label>
+
+        <textarea
+            name="message"
+            rows="5"
+            placeholder="Optional message"
+        ></textarea>
+
+
+        <button type="submit">
+            Book Appointment
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
