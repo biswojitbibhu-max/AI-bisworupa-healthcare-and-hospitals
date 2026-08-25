@@ -5,7 +5,9 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>
         {% block title %}
@@ -13,15 +15,63 @@
         {% endblock %}
     </title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
+
 <body>
 
-    <header>
-        <div class="header-down">
-            <nav>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='bisworupa.png') }}"
+            alt="Bisworupa Healthcare and Hospitals">
+
+        <img
+            src="{{ url_for('static', filename='quotes.png') }}"
+            alt="">
+
+    </div>
+
+
+    <!-- =================================================
+         NAVIGATION BAR
+    ================================================== -->
+
+    <div class="header-down">
+
+        <nav class="navbar">
+
+            <!-- MENU BUTTON -->
+
+            <button
+                type="button"
+                class="menu-btn"
+                id="menuButton"
+                aria-label="Open menu"
+                aria-expanded="false">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+
+            <!-- NORMAL NAVIGATION -->
+
+            <div class="nav-links">
+
                 <a href="{{ url_for('index') }}">
                     Home
                 </a>
@@ -34,90 +84,215 @@
                     AI Chatbot
                 </a>
 
+
                 {% if session.get("user_id") %}
 
-                <a href="{{ url_for('appointments') }}">
-                    Appointment
-                </a>
+                    <a href="{{ url_for('appointments') }}">
+                        Appointment
+                    </a>
 
-                <a href="{{ url_for('dashboard') }}">
-                    Dashboard
-                </a>
+                    <a href="{{ url_for('dashboard') }}">
+                        Dashboard
+                    </a>
 
-                <a href="{{ url_for('logout') }}">
-                    Logout
-                </a>
+                    <a href="{{ url_for('logout') }}">
+                        Logout
+                    </a>
 
                 {% else %}
 
-                <a href="{{ url_for('login') }}">
-                    Login
-                </a>
+                    <a href="{{ url_for('login') }}">
+                        Login
+                    </a>
 
-                <a href="{{ url_for('register') }}">
-                    Register
-                </a>
+                    <a href="{{ url_for('register') }}">
+                        Register
+                    </a>
 
                 {% endif %}
-            </nav>
-
-        </div>
-
-        <div class="logo">
-            <img src="{{ url_for('static', filename='bisworupa.png') }}" alt="">
-            <img src="{{ url_for('static', filename='quotes.png') }}" alt="">
-        </div>
 
 
+                <a href="{{ url_for('contact') }}">
+                    Contact
+                </a>
 
-    </header>
 
+                <!-- LOCATION -->
+                <a href="https://www.google.com/maps?q=Bhubaneswar,Odisha">Location
 
-    {% with messages = get_flashed_messages() %}
+            </div>
 
-    {% if messages %}
-
-    <div class="flash-container">
-
-        {% for message in messages %}
-
-        <div class="flash">
-            {{ message }}
-        </div>
-
-        {% endfor %}
+        </nav>
 
     </div>
 
+</header>
+
+
+<!-- =====================================================
+     SIDE MENU
+===================================================== -->
+
+<aside
+    class="side-menu"
+    id="sideMenu"
+    aria-hidden="true">
+
+
+    <!-- CLOSE -->
+
+    <button
+        type="button"
+        class="close-btn"
+        id="closeMenu"
+        aria-label="Close menu">
+
+        &times;
+
+    </button>
+
+
+    <!-- MENU HEADER -->
+
+    <div class="side-menu-header">
+
+        <h2>
+            Bisworupa Menu
+        </h2>
+
+    </div>
+
+
+    <!-- MENU LINKS -->
+
+    <div class="side-menu-links">
+
+        <a href="{{ url_for('index') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('about') }}">
+            About Us
+        </a>
+
+        <a href="{{ url_for('doctors') }}">
+            Doctors
+        </a>
+
+        <a href="{{ url_for('blogs') }}">
+            Blogs
+        </a>
+
+        <a href="{{ url_for('careers') }}">
+            Careers
+        </a>
+
+        <a href="{{ url_for('awards') }}">
+            Awards
+        </a>
+
+        <a href="{{ url_for('media') }}">
+            Media
+        </a>
+
+        <a href="{{ url_for('contact') }}">
+            Contact Us
+        </a>
+
+        <a href="{{ url_for('location') }}">
+            Location
+        </a>
+
+        <a href="{{ url_for('feedback') }}">
+            Feedback
+        </a>
+
+        <a href="{{ url_for('brand_collaboration') }}">
+            Brand Collaboration
+        </a>
+
+        <a href="{{ url_for('chatbot') }}">
+            AI Chatbot
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     DARK OVERLAY
+===================================================== -->
+
+<div
+    class="menu-overlay"
+    id="menuOverlay">
+</div>
+
+
+<!-- =====================================================
+     FLASH MESSAGES
+===================================================== -->
+
+{% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for message in messages %}
+
+                <div class="flash">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
     {% endif %}
 
-    {% endwith %}
+{% endwith %}
 
 
-    <main>
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
 
-        {% block content %}
+<main>
 
-        {% endblock %}
+    {% block content %}
 
-    </main>
+    {% endblock %}
 
-
-    <footer>
-
-        <p>
-            © 2026 Bisworupa Healthcare and Hospitals
-        </p>
-        <p>Email-bisworupahealthcare@gmail.com</p>
+</main>
 
 
-        <p>
-            AI assistant can providing you general information only.
-        </p>
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-    </footer>
+<footer>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <p>
+        © 2026 Bisworupa Healthcare and Hospitals
+    </p>
+
+    <p>
+        Email -
+        bisworupahealthcare@gmail.com
+    </p>
+
+    <p>
+        AI assistant can provide general information only.
+    </p>
+
+</footer>
+
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}">
+</script>
 
 </body>
 
