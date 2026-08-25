@@ -1,95 +1,372 @@
+/* =====================================================
+   AI CHATBOT
+===================================================== */
+
 const messageInput = document.getElementById("message");
+
 
 if (messageInput) {
 
-    messageInput.addEventListener("keypress", function(event) {
+    messageInput.addEventListener(
+        "keypress",
+        function (event) {
 
-        if (event.key === "Enter") {
+            if (event.key === "Enter") {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            sendMessage();
-
+                sendMessage();
+            }
         }
-
-    });
-
+    );
 }
 
 
 async function sendMessage() {
 
-    const input = document.getElementById("message");
-    const chatBox = document.getElementById("chatBox");
+    const input =
+        document.getElementById("message");
+
+    const chatBox =
+        document.getElementById("chatBox");
+
 
     if (!input || !chatBox) {
         return;
     }
 
-    const message = input.value.trim();
+
+    const message =
+        input.value.trim();
+
 
     if (message === "") {
         return;
     }
 
 
-    // User message
-    const userMessage = document.createElement("div");
+    /* =================================================
+       USER MESSAGE
+    ================================================= */
 
-    userMessage.className = "message user";
+    const userMessage =
+        document.createElement("div");
 
-    userMessage.textContent = message;
+    userMessage.className =
+        "message user";
 
-    chatBox.appendChild(userMessage);
+    userMessage.textContent =
+        message;
+
+    chatBox.appendChild(
+        userMessage
+    );
 
 
     input.value = "";
 
 
-    // Loading message
-    const loading = document.createElement("div");
+    /* =================================================
+       LOADING MESSAGE
+    ================================================= */
 
-    loading.className = "message bot";
+    const loading =
+        document.createElement("div");
 
-    loading.textContent = "Thinking...";
+    loading.className =
+        "message bot";
 
-    chatBox.appendChild(loading);
+    loading.textContent =
+        "Thinking...";
+
+    chatBox.appendChild(
+        loading
+    );
 
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
 
+
+    /* =================================================
+       SEND MESSAGE TO FLASK
+    ================================================= */
 
     try {
 
-        const response = await fetch("/chat", {
+        const response =
+            await fetch(
+                "/chat",
+                {
+                    method: "POST",
 
-            method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                message: message
-            })
-
-        });
-
-
-        const data = await response.json();
-
-
-        loading.textContent = data.response;
+                    body: JSON.stringify({
+                        message: message
+                    })
+                }
+            );
 
 
-    } catch (error) {
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error"
+            );
+        }
+
+
+        const data =
+            await response.json();
+
 
         loading.textContent =
-            "Sorry, I couldn't connect to the AI assistant.";
-
+            data.response ||
+            "Sorry, I did not receive a response.";
     }
 
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    catch (error) {
 
+        console.error(
+            "Chatbot error:",
+            error
+        );
+
+
+        loading.textContent =
+            "Sorry, I couldn't connect to the AI assistant.";
+    }
+
+
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
 }
+
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =================================================
+           GET ELEMENTS
+        ================================================= */
+
+        const menuButton =
+            document.getElementById(
+                "menuButton"
+            );
+
+
+        const closeMenuButton =
+            document.getElementById(
+                "closeMenu"
+            );
+
+
+        const sideMenu =
+            document.getElementById(
+                "sideMenu"
+            );
+
+
+        const menuOverlay =
+            document.getElementById(
+                "menuOverlay"
+            );
+
+
+        /* =================================================
+           CHECK ELEMENTS
+        ================================================= */
+
+        if (
+            !menuButton ||
+            !closeMenuButton ||
+            !sideMenu ||
+            !menuOverlay
+        ) {
+
+            console.error(
+                "Side menu elements were not found."
+            );
+
+            return;
+        }
+
+
+        /* =================================================
+           OPEN MENU
+        ================================================= */
+
+        function openMenu() {
+
+            sideMenu.classList.add(
+                "active"
+            );
+
+
+            menuOverlay.classList.add(
+                "active"
+            );
+
+
+            sideMenu.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+
+            document.body.style.overflow =
+                "hidden";
+        }
+
+
+        /* =================================================
+           CLOSE MENU
+        ================================================= */
+
+        function closeMenu() {
+
+            sideMenu.classList.remove(
+                "active"
+            );
+
+
+            menuOverlay.classList.remove(
+                "active"
+            );
+
+
+            sideMenu.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+
+            document.body.style.overflow =
+                "";
+        }
+
+
+        /* =================================================
+           MENU BUTTON
+        ================================================= */
+
+        menuButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+
+                if (
+                    sideMenu.classList.contains(
+                        "active"
+                    )
+                ) {
+
+                    closeMenu();
+
+                } else {
+
+                    openMenu();
+                }
+            }
+        );
+
+
+        /* =================================================
+           CLOSE BUTTON
+        ================================================= */
+
+        closeMenuButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+                closeMenu();
+            }
+        );
+
+
+        /* =================================================
+           DARK OVERLAY
+        ================================================= */
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                closeMenu();
+            }
+        );
+
+
+        /* =================================================
+           ESC KEY
+        ================================================= */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeMenu();
+                }
+            }
+        );
+
+
+        /* =================================================
+           SIDE MENU LINKS
+        ================================================= */
+
+        const menuLinks =
+            sideMenu.querySelectorAll("a");
+
+
+        menuLinks.forEach(
+            function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        closeMenu();
+                    }
+                );
+            }
+        );
+
+    }
+);
